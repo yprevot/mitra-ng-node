@@ -4,7 +4,10 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "dev":"npx tsc && node .",
+    "build":"tsc -p .",
+    "start": "node .",
+    "dev":"tsc --watch & node --watch build/index.js",
+    "compile":"npx tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
