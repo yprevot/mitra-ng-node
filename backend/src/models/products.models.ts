@@ -1,10 +1,10 @@
-export interface BasicProduct {
+interface BasicProduct {
     name: string;
     description: string;
     price: number;
 }
 
-export interface Product extends BasicProduct {
+interface Product extends BasicProduct {
     id: number;
 }
 
@@ -16,38 +16,49 @@ const products: Array<Product> =[{
   }
 ];
 
-const getIndexByName = (name:  string) => products.findIndex( product => product.name === name);
+class ProductModel {
 
-export const getAllProducts = (): Array<Product> => {
-    return products;
-}
+    static getIndexByName(name:  string) {
+        return products.findIndex( product => product.name === name);
+    } 
 
-export const getProductByName = (name: string): Product | undefined =>{
-    return products.find(product => product.name === name);
-}
-
-export const createProduct = (basicProduct: BasicProduct): boolean => {
-    const index = getIndexByName(basicProduct.name);
-    if(index != -1)
-        return false;
-
-    const newProduct = {
-        id: products.length+1,
-        ...basicProduct
+    static all(): Array<Product>{
+        return products;
     }
-    products.push(newProduct);
-    return true;
-}
 
-export const updateProduct = (productToUpdate: Product): void => {
-    const index =  products.findIndex( product => product.id === productToUpdate.id);
-    products[index] = productToUpdate;
-}
+    static getByName(name: string): Product | undefined {
+        return products.find(product => product.name === name);
+    }
 
-export const deleteProduct = (id : number) : boolean => {
-    const index =  products.findIndex( product => product.id === id);
-    if(index === -1)
-        return false;
-    products.splice(index,1);
-    return true;
+    static create (basicProduct: BasicProduct): boolean{
+        const index = this.getIndexByName(basicProduct.name);
+        if(index != -1)
+            return false;
+
+        const newProduct = {
+            id: products.length+1,
+            ...basicProduct
+        }
+        products.push(newProduct);
+        return true;
+    }
+
+    static update (productToUpdate: Product): void {
+        const index =  products.findIndex( product => product.id === productToUpdate.id);
+        products[index] = productToUpdate;
+    }
+
+    static delete (id : number): boolean {
+        const index =  products.findIndex( product => product.id === id);
+        if(index === -1)
+            return false;
+        products.splice(index,1);
+        return true;
+    }
+
+};
+export {
+    BasicProduct,
+    Product,
+    ProductModel,
 }

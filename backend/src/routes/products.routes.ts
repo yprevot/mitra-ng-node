@@ -1,10 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { 
-    getAllProductsController,
-    getProductByNameController,
-    createProductController,
-    updateProductController,
-    deleteProductController
+    ProductController
 } from '../controllers/products.controllers';
 
 import {
@@ -14,9 +10,9 @@ import {
 
 const productsRouter =  Router();
 
-productsRouter.get('/', getAllProductsController);
-productsRouter.get('/:name', getProductByNameController);
-productsRouter.post('/',createProductValidatorMiddleware, createProductController);
-productsRouter.put('/:id', updateProductValidatorMiddleware, updateProductController);
-productsRouter.delete('/:id',deleteProductController);
+productsRouter.get('/', ProductController.all);
+productsRouter.get('/:name', ProductController.getByName);
+productsRouter.post('/',createProductValidatorMiddleware, ProductController.create);
+productsRouter.put('/:id', updateProductValidatorMiddleware, ProductController.update);
+productsRouter.delete('/:id',ProductController.delete);
 export default productsRouter;

@@ -2,59 +2,65 @@ import { Request, Response } from 'express';
 import {
     BasicProduct,
     Product,
-    getAllProducts,
-    getProductByName,
-    createProduct,
-    updateProduct,
-    deleteProduct
+    ProductModel,
 } from '../models/products.models';
 
-export const getAllProductsController = ( _: Request, response: Response) : void => {
-    const products: Product[] = getAllProducts();   
-    response.status(200).json({products});
-}
+class ProductController{
 
-export const getProductByNameController = (request: Request, response: Response): void => {
-    const name: string = request.params.name;
-    const product: Product | undefined = getProductByName(name);
-    if(product){
-        response.status(200).json({product});
-    }else{
-        response.status(404).json({message: 'Product not found'});
+    static all( request: Request, response: Response) : Response{
+        const products: Product[] = ProductModel.all();   
+        return response.status(200).json({products});
     }
-}
 
-export const createProductController = (request: Request, response: Response): Response => {
-    const product: BasicProduct =  request.body;
-    const status = createProduct(product);
-    if(!status)
-        return response.status(404).json({error: 'product exits'});
+    static getByName(request: Request, response: Response): Response {
+        const name: string = request.params.name;
+        const product: Product | undefined = ProductModel.getByName(name);
+        if(product){
+            return response.status(200).json({product});
+        }else{
+            return response.status(404).json({message: 'Product not found'});
+        }
+    }
 
-    return response.status(201).json({
-        message: 'Product created',
-        product
-    });
-}
+    static  create(request: Request, response: Response): Response{
+        const product: BasicProduct =  request.body;
+        const status = ProductModel.create(product);
+        if(!status)
+            return response.status(404).json({error: 'product exits'});
 
-export const updateProductController = (request: Request, response: Response ): void => {
-    const id: number = parseInt(request.params.id,10);
-    const productToUpdate: Product = request.body;
-    productToUpdate.id =  id;
-    updateProduct(productToUpdate);
-    response.status(200).json({
-        message: `Product ${id} updated`,
-        product: productToUpdate
-    })
-}
-
-export  const deleteProductController =  (request: Request, response: Response): Response => {
-    const id: number  = parseInt(request.params.id,10);
-    const status = deleteProduct(id);
-    if(!status)
-        return response.status(401).json({
-            message: `${id} doesn't exist`
+        return response.status(201).json({
+            message: 'Product created',
+            product
         });
-    return response.status(200).json({
-        message: `Product ${id} deleted`
-    });
-}
+    }
+
+    static update(request: Request, response: Response ): Response {
+        const id: number = parseInt(request.params.id,10);
+        const productToUpdate: Product = request.body;
+        productToUpdate.id =  id;
+        ProductModel.update(productToUpdate);
+        return response.status(200).json({
+            message: `Product ${id} updated`,
+            product: productToUpdate
+        })
+    }
+
+    static delete(request: Request, response: Response): Response{
+        const id: number  = parseInt(request.params.id,10);
+        const status = ProductModel.delete(id);
+        if(!status)
+            return response.status(401).json({
+                message: `${id} doesn't exist`
+            });
+        return response.status(200).json({
+            message: `Product ${id} deleted`
+        });
+    }
+};
+
+export {
+    ProductController,
+};
+
+
+
