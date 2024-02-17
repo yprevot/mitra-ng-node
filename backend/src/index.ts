@@ -12,7 +12,7 @@ server.use(helmet());
 server.use(morgan('dev'));
 server.use(express.json());
 
-server.use('/', router);
+server.use('/api/v1/', router);
 
 server.listen(port, ()=>{
     console.log(`Server started at:  http://localhost:${port}`);
