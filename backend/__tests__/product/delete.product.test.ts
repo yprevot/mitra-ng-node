@@ -1,9 +1,9 @@
-import { Request, Response } from 'supertest'
-import request from 'supertest'
-import { ExpressServer } from '../../src/ExpressServer'
+import { Request, Response } from 'supertest';
+import request from 'supertest';
+import { ExpressServer } from '../../src/ExpressServer';
 
 describe('Deleting product', () => {
     it('', async () => {
-        expect(true).toBe(true)
-    })
-})
+        expect(true).toBe(true);
+    });
+});

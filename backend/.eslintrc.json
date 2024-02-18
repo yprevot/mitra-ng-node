@@ -17,6 +17,12 @@
         "sourceType": "module"
     },
     "rules": {
-        // Add your rules here
+        "prettier/prettier": "error",
+        "no-unused-vars": "warn",
+        "no-console": "off",
+        "func-names": "off",
+        "no-plusplus": "off",
+        "no-process-exit": "off",
+        "class-methods-use-this": "off"
     }
 }
