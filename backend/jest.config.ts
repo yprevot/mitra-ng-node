@@ -29,7 +29,8 @@ const config: Config = {
 
  
   // An array of file extensions your modules use
-  moduleFileExtensions: [      
+  moduleFileExtensions: [
+    "js",      
      "ts",    
    ],
 
@@ -37,7 +38,7 @@ const config: Config = {
 
   // A list of paths to directories that Jest should use to search for files in
   roots: [
-    "<rootDir/src/tests"
+    "<rootDir>/__tests__"
   ], 
 };
 
