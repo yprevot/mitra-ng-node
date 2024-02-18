@@ -2,7 +2,7 @@ import { Express } from 'express';
 import { ServerConfig as serverConfig } from './ServerConfig';
 import { ExpressServer } from './ExpressServer';
 
-const expressServer = ExpressServer.getServer()
+const expressServer = ExpressServer.getServer();
 
 const startServer = async (app: Express) => {
     try {
@@ -13,5 +13,5 @@ const startServer = async (app: Express) => {
         console.error(error);
         throw error;
     }
-}
+};
 startServer(expressServer);

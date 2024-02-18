@@ -27,7 +27,7 @@ describe('Creating new products', () => {
 
     describe('Description string type scenarios', () => {
         it('Description is not a string type', async () => {
-            expect(true).toBe(true)
+            expect(true).toBe(true);
         });
 
         it('Less than 5 characters', async () => {
@@ -35,7 +35,7 @@ describe('Creating new products', () => {
         });
 
         it('More than 1000 characters', async () => {
-            expect(true).toBe(true)
+            expect(true).toBe(true);
         });
 
         it('Valid string type input', async () => {

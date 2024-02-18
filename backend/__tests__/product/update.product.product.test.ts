@@ -3,7 +3,6 @@ import request from 'supertest';
 import { ExpressServer } from '../../src/ExpressServer';
 
 describe('Updating product', () => {
-    
     it('Updating product description', async () => {
         expect(true).toBe(true);
     });

@@ -6,4 +6,4 @@ enum HttpStatusCode {
     INTERNAL_SERVER = 500,
 }
 
-export { HttpStatusCode }
+export { HttpStatusCode };

@@ -12,4 +12,4 @@ describe('Listing all products', () => {
         const result = await request(ExpressServer.getServer()).get('/api/v1/products');
         expect(result.statusCode).toEqual(200);
     });
-})
+});

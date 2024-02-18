@@ -4,7 +4,6 @@ import { ExpressServer } from '../../src/ExpressServer';
 
 describe('Retrieving product details by its name', () => {
     describe('Validating name string type', () => {
-        
         it('Name is not a string type', async () => {
             expect(true).toBe(true);
         });
