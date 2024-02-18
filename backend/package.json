@@ -8,7 +8,9 @@
     "start": "node .",
     "dev": "tsc --watch & node --watch build/index.js",
     "compile": "npx tsc && node .",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "author": "",
   "license": "ISC",
