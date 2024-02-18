@@ -2,9 +2,7 @@ import { Express } from 'express';
 import { config } from './config';
 import { ExpressServer } from './ExpressServer';
 
-
-const apiBasePath = `/${config.BASE_PATH}/${config.API_VERSION}`;
-const expressServer =  ExpressServer.getServer(apiBasePath);
+const expressServer =  ExpressServer.getServer();
  
 const startServer = async( app: Express) => {
     try{

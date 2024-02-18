@@ -9,7 +9,7 @@ class ExpressServer {
     private static app: Express;
     
 
-    public static getServer(apiPath: string): Express{
+    public static getServer(): Express{
         if(!ExpressServer.app){
             const app =  express();
             ExpressServer.app = app;
@@ -19,7 +19,7 @@ class ExpressServer {
                 ExpressServer.app.use(helmet());
                 ExpressServer.app.use(morgan('dev'));
                 ExpressServer.app.use(express.json());
-                ExpressServer.app.use(apiPath, router);
+                ExpressServer.app.use('/api/v1', router);
             }catch(error){
                 console.error(error);
                 throw error;
