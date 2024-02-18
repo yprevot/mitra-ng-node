@@ -8,7 +8,7 @@ import { HttpStatusCode } from '../utils/HttpStatusCode';
 
 class ProductController{
     
-    static async all( request: Request, response: Response) : Promise<Response>{
+    static async all(request: Request, response: Response) : Promise<Response>{
         try{
             const products: Product[] = await ProductModel.all();   
             return response.status(HttpStatusCode.OK).json({products});
