@@ -16,22 +16,28 @@ const products: Array<Product> =[{
   }
 ];
 
-class ProductModel {
+class ProductModel { 
 
-    static getIndexByName(name:  string) {
-        return products.findIndex( product => product.name === name);
+    static async getIndexByName(name:  string) {
+        return new Promise((resolve,)=>{
+            resolve(products.findIndex( product => product.name === name));
+        });
     } 
 
-    static all(): Array<Product>{
-        return products;
+    static async  all(): Promise<Array<Product>>{
+        return new Promise((resolve,)=>{
+            resolve(products);
+        });
     }
 
-    static getByName(name: string): Product | undefined {
-        return products.find(product => product.name === name);
+    static async getByName(name: string): Promise<Product | undefined> {
+        return new Promise((resolve,)=>{
+            resolve(products.find(product => product.name === name));
+        });
     }
 
-    static create (basicProduct: BasicProduct): boolean{
-        const index = this.getIndexByName(basicProduct.name);
+    static async  create (basicProduct: BasicProduct): Promise<boolean>{
+        const index = await this.getIndexByName(basicProduct.name);
         if(index != -1)
             return false;
 
@@ -43,12 +49,12 @@ class ProductModel {
         return true;
     }
 
-    static update (productToUpdate: Product): void {
+    static async update (productToUpdate: Product): Promise<void> {
         const index =  products.findIndex( product => product.id === productToUpdate.id);
         products[index] = productToUpdate;
     }
 
-    static delete (id : number): boolean {
+    static async delete (id : number): Promise<boolean> {
         const index =  products.findIndex( product => product.id === id);
         if(index === -1)
             return false;
