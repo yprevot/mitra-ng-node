@@ -10,7 +10,8 @@
     "compile": "npx tsc && node .",
     "test": "jest",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.ts\" "
   },
   "author": "",
   "license": "ISC",
