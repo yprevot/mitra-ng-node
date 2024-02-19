@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import Joi, { ValidationError, ValidationResult } from 'joi';
+import Joi, { ValidationResult } from 'joi';
 import { NAME, DESCRIPTION, PRICE } from './constants';
 
 const productRules = {
@@ -11,12 +11,12 @@ const productRules = {
 
 export const createProductJoiSchema = Joi.object(productRules);
 
-export const updateProductJoiSchema = Joi.object({
+const updateProductJoiSchema = Joi.object({
     id: Joi.number().integer().required(),
     ...productRules,
 });
 
-export const createProductValidatorMiddleware = (
+const createProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
@@ -33,7 +33,7 @@ export const createProductValidatorMiddleware = (
     }
     nextFunction();
 };
-export const updateProductValidatorMiddleware = (
+const updateProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
@@ -49,4 +49,9 @@ export const updateProductValidatorMiddleware = (
         });
     }
     nextFunction();
+};
+
+export {
+    createProductValidatorMiddleware,
+    updateProductValidatorMiddleware,
 };
