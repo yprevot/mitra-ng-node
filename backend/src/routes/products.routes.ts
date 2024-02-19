@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { ProductController } from '../controllers/products.controllers';
 import {
     createProductValidatorMiddleware,
@@ -12,6 +12,5 @@ productsRouter.get('/:name', ProductController.getByName);
 productsRouter.post('/', createProductValidatorMiddleware, ProductController.create);
 productsRouter.put('/:id', updateProductValidatorMiddleware, ProductController.update);
 productsRouter.delete('/:id', ProductController.delete);
-export {
-    productsRouter
-} ;
+
+export { productsRouter };

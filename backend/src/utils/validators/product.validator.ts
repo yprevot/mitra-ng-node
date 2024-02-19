@@ -20,13 +20,13 @@ const createProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
-) => {
+): void => {
     const result: ValidationResult = createProductJoiSchema.validate(request.body, {
         abortEarly: false,
     });
 
     if (result.error) {
-        return response.status(422).json({
+        response.status(422).json({
             message: 'Invalid request data',
             errors: result.error.details.map((error) => error.message),
         });
@@ -37,13 +37,13 @@ const updateProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
-) => {
+): void => {
     const result: ValidationResult = updateProductJoiSchema.validate(request.body, {
         abortEarly: false,
     });
 
     if (result.error) {
-        return response.status(422).json({
+        response.status(422).json({
             message: 'Invalid request data',
             errors: result.error.details.map((error) => error.message),
         });
@@ -51,7 +51,4 @@ const updateProductValidatorMiddleware = (
     nextFunction();
 };
 
-export {
-    createProductValidatorMiddleware,
-    updateProductValidatorMiddleware,
-};
+export { createProductValidatorMiddleware, updateProductValidatorMiddleware };

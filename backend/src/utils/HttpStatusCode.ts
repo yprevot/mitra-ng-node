@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-shadow
 const enum HttpStatusCode {
     OK = 200,
     CREATED = 201,

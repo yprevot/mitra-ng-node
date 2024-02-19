@@ -1,7 +1,3 @@
-import { Request, Response } from 'supertest';
-import request from 'supertest';
-import { ExpressServer } from '../../src/ExpressServer';
-
 describe('Creating new products', () => {
     describe('Name string type scenarios', () => {
         it('Name is not a string type', async () => {

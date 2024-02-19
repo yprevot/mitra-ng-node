@@ -3,7 +3,7 @@ import { BasicProduct, Product, ProductModel } from '../models/products.models';
 import { HttpStatusCode } from '../utils/HttpStatusCode';
 
 class ProductController {
-    static async all(request : Request, response: Response): Promise<Response> {
+    static async all(request: Request, response: Response): Promise<Response> {
         try {
             const products: Product[] = await ProductModel.all();
             return response.status(HttpStatusCode.OK).json({ products });
@@ -16,15 +16,12 @@ class ProductController {
 
     static async getByName(request: Request, response: Response): Promise<Response> {
         try {
-            const name: string = request.params.name;
+            const { name } = request.params;
             const product: Product | undefined = await ProductModel.getByName(name);
             if (product) {
                 return response.status(HttpStatusCode.OK).json({ product });
-            } else {
-                return response
-                    .status(HttpStatusCode.NOT_FOUND)
-                    .json({ message: 'Product not found' });
             }
+            return response.status(HttpStatusCode.NOT_FOUND).json({ message: 'Product not found' });
         } catch (error) {
             return response
                 .status(HttpStatusCode.INTERNAL_SERVER)

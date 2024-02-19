@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
+  "engines": {
+    "node": ">=18.19.1"
+  },
   "scripts": {
     "build": "npx tsc",
     "dev": "./node_modules/nodemon/bin/nodemon.js --exec ts-node src/index.ts",
