@@ -38,7 +38,7 @@ class ProductModel {
 
     static async create(basicProduct: BasicProduct): Promise<boolean> {
         const index = await this.getIndexByName(basicProduct.name);
-        if (index != -1) return false;
+        if (index !== -1) return false;
 
         const newProduct = {
             id: products.length + 1,

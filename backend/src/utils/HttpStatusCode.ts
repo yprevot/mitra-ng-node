@@ -1,4 +1,6 @@
-enum HttpStatusCode {
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-shadow
+const enum HttpStatusCode {
     OK = 200,
     CREATED = 201,
     BAD_REQUEST = 400,

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import Joi, { ValidationError, ValidationResult } from 'joi';
+import Joi, { ValidationResult } from 'joi';
 import { NAME, DESCRIPTION, PRICE } from './constants';
 
 const productRules = {
@@ -11,42 +11,44 @@ const productRules = {
 
 export const createProductJoiSchema = Joi.object(productRules);
 
-export const updateProductJoiSchema = Joi.object({
+const updateProductJoiSchema = Joi.object({
     id: Joi.number().integer().required(),
     ...productRules,
 });
 
-export const createProductValidatorMiddleware = (
+const createProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
-) => {
+): void => {
     const result: ValidationResult = createProductJoiSchema.validate(request.body, {
         abortEarly: false,
     });
 
     if (result.error) {
-        return response.status(422).json({
+        response.status(422).json({
             message: 'Invalid request data',
             errors: result.error.details.map((error) => error.message),
         });
     }
     nextFunction();
 };
-export const updateProductValidatorMiddleware = (
+const updateProductValidatorMiddleware = (
     request: Request,
     response: Response,
     nextFunction: NextFunction,
-) => {
+): void => {
     const result: ValidationResult = updateProductJoiSchema.validate(request.body, {
         abortEarly: false,
     });
 
     if (result.error) {
-        return response.status(422).json({
+        response.status(422).json({
             message: 'Invalid request data',
             errors: result.error.details.map((error) => error.message),
         });
     }
     nextFunction();
 };
+
+export { createProductValidatorMiddleware, updateProductValidatorMiddleware };
