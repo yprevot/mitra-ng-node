@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "dev": "./node_modules/nodemon/bin/nodemon.js --exec ts-node src/index.ts",
-    "start:prod": "npm run build && ./build/src/index.js", 
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "prod": "npm run build && ./build/src/index.js", 
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
