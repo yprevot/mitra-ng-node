@@ -2,11 +2,12 @@ services:
   server:
     build:
       context: ./backend
-      target: production
+      target: testing
     ports:
-      - 81:81
+      - 3001:3001
+      - 9229:9229
     environment:
-      NODE_ENV: production
+      NODE_ENV: testing
 
     volumes:
       - ./src:/usr/src/app/src
