@@ -18,7 +18,13 @@ const products: Array<Product> = [
     {
         id: 2,
         name: 'Biology',
-        description: 'Book of biology and that',
+        description: 'Book of biology and history',
+        price: 456,
+    },
+    {
+        id: 3,
+        name: 'History',
+        description: 'Book of history',
         price: 456,
     },
 ];

@@ -22,7 +22,7 @@ services:
     environment:
       NODE_ENV: development
     volumes:
-      - ./src:/usr/src/app/src
+      - ./backend:/usr/src/app/backend
     depends_on:
       postgresql:
         condition: service_healthy
@@ -53,6 +53,7 @@ services:
 
 volumes:
   db-data:
+  backend:
 
 secrets:
   db-password:
