@@ -15,6 +15,18 @@ const products: Array<Product> = [
         description: 'Book of math',
         price: 34.45,
     },
+    {
+        id: 2,
+        name: 'Biology',
+        description: 'Book of biology and history',
+        price: 456,
+    },
+    {
+        id: 3,
+        name: 'History',
+        description: 'Book of history',
+        price: 456,
+    },
 ];
 
 class ProductModel {

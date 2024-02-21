@@ -1,0 +1,63 @@
+name: dev-angular-nodejs
+services:
+
+  angular:
+    container_name: dev-angular
+    build:
+      context: ./frontend
+      target: testing
+    ports:
+      - '4200:4200'
+    networks:
+      - devnet
+
+  nodejs:
+    container_name: dev-nodejs
+    build:
+      context: ./backend
+      target: development
+    ports:
+      - 3001:3001
+      - 9229:9229
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./backend:/usr/src/app/backend
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - devnet
+        
+  postgresql:
+    container_name: dev-postgresql
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=prod_angular-nodejs
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    ports:
+      - 5431:5431
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - devnet
+
+volumes:
+  db-data:
+  backend:
+
+secrets:
+  db-password:
+    file: db/pg.dev
+    
+networks:
+  devnet:

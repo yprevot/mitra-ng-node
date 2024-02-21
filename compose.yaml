@@ -1,0 +1,61 @@
+name: prod-angular-nodejs
+services:
+  angular:
+    container_name: prod-angular
+    build:
+      context: ./frontend
+      target: production
+    ports:
+      - '80:80'
+    networks:
+      - prodnet
+
+  nodejs:
+    container_name: prod-nodejs
+    build:
+      context: ./backend
+      target: production
+    ports:
+      - 3080:3080
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./src:/usr/src/app/src
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - prodnet
+
+  postgresql:
+    container_name: prod-postgresql
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=prod_angular-nodejs
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prodnet
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/pg.prod
+    
+networks:
+  prodnet:
+
