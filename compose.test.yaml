@@ -1,14 +1,23 @@
+name: test-angular-nodejs
 services:
-  server:
+  angular:
+    container_name: test-angular
+    build:
+      context: ./frontend
+      target: testing
+    ports:
+      - '4010:4010'
+      - '9876:9876'
+
+  nodejs:
+    container_name: test-nodejs
     build:
       context: ./backend
       target: testing
     ports:
-      - 3001:3001
-      - 9229:9229
+      - 8080:8080
     environment:
       NODE_ENV: testing
-
     volumes:
       - ./src:/usr/src/app/src
 

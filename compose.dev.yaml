@@ -1,5 +1,14 @@
+name: dev-angular-nodejs
 services:
-  server:
+  angular:
+    container_name: dev-angular
+    build:
+      context: ./frontend
+      target: testing
+    ports:
+      - '4200:4200'
+  nodejs:
+    container_name: dev-nodejs
     build:
       context: ./backend
       target: development
@@ -8,9 +17,9 @@ services:
       - 9229:9229
     environment:
       NODE_ENV: development
-
     volumes:
       - ./src:/usr/src/app/src
+  
 
 #     depends_on:
 #       db:

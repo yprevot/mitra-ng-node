@@ -1,13 +1,23 @@
+name: prod-angular-nodejs
 services:
-  server:
+
+  angular:
+    container_name: prod-angular
+    build:
+      context: ./frontend
+      target: production
+    ports:
+      - '80:80'
+
+  nodejs:
+    container_name: prod-nodejs
     build:
       context: ./backend
       target: production
     ports:
-      - 81:81
+      - 3080:3080
     environment:
       NODE_ENV: production
-
     volumes:
       - ./src:/usr/src/app/src
 
