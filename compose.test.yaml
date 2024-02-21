@@ -8,6 +8,8 @@ services:
     ports:
       - '4010:4010'
       - '9876:9876'
+    networks:
+      - testnet
 
   nodejs:
     container_name: test-nodejs
@@ -20,31 +22,41 @@ services:
       NODE_ENV: testing
     volumes:
       - ./src:/usr/src/app/src
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - testnet
+        
+  postgresql:
+    container_name: test-postgresql
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=prod_angular-nodejs
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    ports:
+      - 5430:5430
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - testnet
 
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#   db:
-#     image: postgres
-#     restart: always
-#     user: postgres
-#     secrets:
-#       - db-password
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     environment:
-#       - POSTGRES_DB=example
-#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-#     expose:
-#       - 5432
-#     healthcheck:
-#       test: [ "CMD", "pg_isready" ]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-# volumes:
-#   db-data:
-# secrets:
-#   db-password:
-#     file: db/password.txt
 
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/pg.test
+    
+networks:
+  testnet:
