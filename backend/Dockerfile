@@ -5,34 +5,52 @@ FROM node:${NODE_VERSION}-alpine as base
 WORKDIR /usr/src/app/backend
 EXPOSE 3001
 
-FROM base as dev
+FROM base as development
 ENV NODE_ENV dev
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --include=dev
 USER node
-COPY . .
+COPY .env.dev .env
+COPY . . 
 CMD npm run dev
 
 
-FROM base as prod
-ENV NODE_ENV prod
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-USER node
-COPY . .
-CMD node build/src/index.js
-
-
-FROM base as test
+FROM base as testing
 ENV NODE_ENV test
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --include=dev
 USER node
+COPY .env.test .env
 COPY . .
 RUN npm run test
+
+
+FROM base as build
+WORKDIR /usr
+#USER node
+COPY package.json ./
+COPY tsconfig.json ./
+COPY src ./src 
+COPY .env.prod .env
+RUN ls -a
+RUN npm install
+RUN npm run build
+
+
+FROM build as production
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=package-lock.json,target=package-lock.json \
+    --mount=type=cache,target=/root/.npm \
+    npm ci --ommit=dev
+USER node
+WORKDIR /usr/src/app/backend
+COPY .env.prod .env
+COPY --from=build /usr/build  .
+CMD node src/index.js
+
+
+
