@@ -13,7 +13,7 @@ class ProductController {
         } catch (error) {
             return response
                 .status(HttpStatusCode.INTERNAL_SERVER)
-                .json({ message: 'something wrong happen' });
+                .json({ message: 'somethin wrong happen' });
         }
     }
 

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -17,5 +17,17 @@ app.get('/', (request: Request, response: Response) => {
     });
 });
 app.use('/api/v1', router);
+
+app.use('*', (request: Request, response: Response) => {
+    response.status(HttpStatusCode.NOT_FOUND).json({
+        message: `Can't find this: ${request.originalUrl} route`,
+    });
+});
+app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
+    response.status(HttpStatusCode.INTERNAL_SERVER).json({
+        status: HttpStatusCode.INTERNAL_SERVER,
+        message: err.message,
+    });
+});
 
 export { app as ExpressServer };

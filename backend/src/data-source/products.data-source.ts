@@ -17,6 +17,7 @@ class ProductDataModel {
     }
 
     static async all(): Promise<Array<Product>> {
+        throw Error;
         return new Promise((resolve) => {
             resolve(products);
         });
