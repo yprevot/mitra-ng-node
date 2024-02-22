@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ProductService } from '../services/product.service';
-import { IRGetByName } from '../interfaces/request.interfaces';
+import { IRGetByName } from '../interfaces/all.interfaces';
 import { BasicProduct, Product } from '../data-source/products.data-source';
 import { HttpStatusCode } from '../utils/HttpStatusCode';
 

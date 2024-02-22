@@ -1,12 +1,4 @@
-interface BasicProduct {
-    name: string;
-    description: string;
-    price: number;
-}
-
-interface Product extends BasicProduct {
-    id: number;
-}
+import { BasicProduct, Product } from '../interfaces/all.interfaces';
 
 const products: Array<Product> = [
     {
