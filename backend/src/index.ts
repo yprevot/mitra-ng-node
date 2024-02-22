@@ -13,4 +13,4 @@ const startServer = async (app: Express) => {
         process.exit(1);
     }
 };
-startServer(ExpressServer.getServer());
+startServer(ExpressServer);
