@@ -2,8 +2,15 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: `../.env` });
 
-const ServerConfig = Object.freeze({
-    HOST: process.env.HOST || 'localhost',
-    PORT: process.env.PORT || 3001,
+type IConfig = {
+    host: string;
+    port: number;
+};
+
+const { HOST = String('localhost'), PORT = Number(3001) } = process.env;
+
+const ServerConfig: IConfig = Object.freeze({
+    host: String(HOST),
+    port: +PORT,
 });
 export { ServerConfig };

@@ -17,7 +17,7 @@ const products: Array<Product> = [
     },
 ];
 
-class ProductModel {
+class ProductDataModel {
     static async getIndexByName(name: string) {
         return new Promise((resolve) => {
             resolve(products.findIndex((product) => product.name === name));
@@ -48,9 +48,10 @@ class ProductModel {
         return true;
     }
 
-    static async update(productToUpdate: Product): Promise<void> {
+    static async update(productToUpdate: Product): Promise<boolean> {
         const index = products.findIndex((product) => product.id === productToUpdate.id);
         products[index] = productToUpdate;
+        return true;
     }
 
     static async delete(id: number): Promise<boolean> {
@@ -59,5 +60,10 @@ class ProductModel {
         products.splice(index, 1);
         return true;
     }
+
+    static async exist(id: number): Promise<boolean> {
+        const index = products.findIndex((product) => product.id === id);
+        return index !== -1;
+    }
 }
-export { BasicProduct, Product, ProductModel };
+export { BasicProduct, Product, ProductDataModel };

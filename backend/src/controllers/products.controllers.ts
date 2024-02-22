@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
-import { BasicProduct, Product, ProductModel } from '../models/products.models';
+import { ProductService } from '../services/product.service';
+import { IRGetByName } from '../interfaces/request.interfaces';
+import { BasicProduct, Product } from '../data-source/products.data-source';
 import { HttpStatusCode } from '../utils/HttpStatusCode';
 
+const productService = new ProductService();
 class ProductController {
     static async all(request: Request, response: Response): Promise<Response> {
         try {
-            const products: Product[] = await ProductModel.all();
-            return response.status(HttpStatusCode.OK).json({ products });
+            const list: Product[] = await productService.getAll();
+            return response.status(HttpStatusCode.OK).json({ product: list });
         } catch (error) {
             return response
                 .status(HttpStatusCode.INTERNAL_SERVER)
@@ -14,10 +17,10 @@ class ProductController {
         }
     }
 
-    static async getByName(request: Request, response: Response): Promise<Response> {
+    static async getByName(request: Request<IRGetByName>, response: Response): Promise<Response> {
         try {
             const { name } = request.params;
-            const product: Product | undefined = await ProductModel.getByName(name);
+            const product: Product | undefined = await productService.getProductByName(name);
             if (product) {
                 return response.status(HttpStatusCode.OK).json({ product });
             }
@@ -31,8 +34,8 @@ class ProductController {
 
     static async create(request: Request, response: Response): Promise<Response> {
         try {
-            const product: BasicProduct = request.body;
-            const status = await ProductModel.create(product);
+            const product: BasicProduct = request.body as BasicProduct;
+            const status = await productService.createProduct(product);
             if (!status)
                 return response.status(HttpStatusCode.NOT_FOUND).json({ error: 'product exits' });
 
@@ -52,7 +55,11 @@ class ProductController {
             const id: number = parseInt(request.params.id, 10);
             const productToUpdate: Product = request.body;
             productToUpdate.id = id;
-            await ProductModel.update(productToUpdate);
+            const status = await productService.updateProduct(productToUpdate);
+            if (!status)
+                return response
+                    .status(HttpStatusCode.NOT_FOUND)
+                    .json({ error: 'product do not exist' });
             return response.status(HttpStatusCode.CREATED).json({
                 message: `Product ${id} updated`,
                 product: productToUpdate,
@@ -67,7 +74,7 @@ class ProductController {
     static async delete(request: Request, response: Response): Promise<Response> {
         try {
             const id: number = parseInt(request.params.id, 10);
-            const status = await ProductModel.delete(id);
+            const status = await productService.deleteProduct(id);
             if (!status)
                 return response.status(401).json({
                     message: `${id} doesn't exist`,

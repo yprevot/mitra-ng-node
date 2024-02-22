@@ -1,17 +1,16 @@
 import { Express } from 'express';
-import { ServerConfig as serverConfig } from './ServerConfig';
+import process from 'node:process';
+import { ServerConfig as config } from './ServerConfig';
 import { ExpressServer } from './ExpressServer';
-
-const expressServer = ExpressServer.getServer();
 
 const startServer = async (app: Express) => {
     try {
-        app.listen(serverConfig.PORT, () => {
-            console.log(`Server started at:  http://${serverConfig.HOST}:${serverConfig.PORT}`);
+        app.listen(config.port, () => {
+            console.log(`Server running at:  http://${config.host}:${config.port}`);
         });
     } catch (error) {
         console.error(error);
-        throw error;
+        process.exit(1);
     }
 };
-startServer(expressServer);
+startServer(ExpressServer.getServer());
