@@ -27,14 +27,19 @@ class ExpressServer {
                     });
                 });
                 ExpressServer.app.use(
-                    (error: CustomError, request: Request, response: Response, next: NextFunction) => {
+                    (
+                        error: CustomError,
+                        request: Request,
+                        response: Response,
+                        next: NextFunction,
+                    ) => {
                         error.status = error.status || 'fail';
                         error.statusCode = error.statusCode || HttpStatusCode.INTERNAL_SERVER;
                         response.status(error.statusCode).json({
                             status: error.status,
                             message: error.message,
                             stack: error.stack,
-                            request: request.body
+                            request: request.body,
                         });
                     },
                 );
