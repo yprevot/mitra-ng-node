@@ -17,7 +17,7 @@ class ProductController {
         }
     }
 
-    static async getByName(request: Request<IRGetByName>, response: Response): Promise<Response> {
+    static async getByName(request: Request, response: Response): Promise<Response> {
         try {
             const { name } = request.params;
             const product: Product | undefined = await productService.getProductByName(name);

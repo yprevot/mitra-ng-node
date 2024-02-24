@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-
 import { productsRouter } from './products.routes';
 import { HttpStatusCode } from '../utils/HttpStatusCode';
 
